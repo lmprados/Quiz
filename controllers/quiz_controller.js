@@ -45,18 +45,18 @@ exports.new = function(req, res){
 exports.create = function(req, res){
 	var quiz = models.Quiz.build(req.body.quiz);
 
-	/* quiz.validate()
+	 quiz.validate()
 	.then (
 		function(err){
 			if (err) {
 				res.render('quizes/new', {quiz: quiz, errors: err.errors});
 			} else {
-				quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+				quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
 		res.redirect('/quizes')})
 			}
-	}); */
-quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
-		res.redirect('/quizes')})
+	}); 
+/*quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
+		res.redirect('/quizes')})*/
 };
 
 //GET /quizes/:id/edit
@@ -72,19 +72,19 @@ exports.update = function(req, res){
 	req.quiz.respuesta = req.body.quiz.respuesta;
 	req.quiz.tema = req.body.quiz.tema;
 
-	 /*req.quiz.validate()
+	 req.quiz.validate()
 	.then (
 		function(err){
 			if (err) {
 				res.render('quizes/edit', {quiz: quiz, errors: err.errors});
 			} else {
-				req.quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+				req.quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
 		res.redirect('/quizes')})
 			}
-	}); */
+	}); 
 
-req.quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
-		res.redirect('/quizes')})
+/*req.quiz.save({fields: ["pregunta", "respuesta", "tema"]}).then(function(){
+		res.redirect('/quizes')})*/
 };
 
 //DELETE /quizes/:id
@@ -114,5 +114,5 @@ exports.answer = function(req, res){
 
 //GET /author
 exports.author = function(req, res){
-	res.render('author', {autor: 'Fernando Alonso', foto: '/images/alo.jpg' });
+	res.render('author', {autor: 'Fernando Alonso', foto: '/images/alo.jpg', errors:[] });
 }
