@@ -1,5 +1,19 @@
 var models = require('../models/models.js');
 
+//Autoload - factoriza el codigo si ruta incluye :commentId
+exports.load = function (req, res, next, commentId){
+	models.Comment.find({
+		where: {id: Number(commentId)}
+		
+	}).then (
+		function(comment) {
+			if (comment) {
+				req.comment=comment;
+				next();
+			} else { next (new Error('No existe commentId='+commentId));}
+	}).catch(function(error) {next (error);});
+};
+
 //GET /quizes/:id/comments/new
 exports.new = function(req, res){
 	
@@ -24,6 +38,16 @@ exports.create = function(req, res){
 			}
 	}).catch(function(error){next(error)}); 
 };
+
+// GET /quizes/:quizId/comments/:commentId/publish
+exports.publish = function(req, res) {
+	req.comment.publicado=true;
+
+	req.comment.save({fields: ["publicado"]})
+		.then(function(){res.redirect('/quizes/'+req.params.quizId);})
+		.catch(function(error){next(error)});
+};
+
 
 
 
