@@ -35,6 +35,15 @@ app.use(function(req, res, next) {
         req.session.redir=req.path;
     }
 
+    //Guardamos la hora
+    if (!req.session.lastTransactionTime) {
+        req.session.prevTransactionTime = new Date();
+    } else {
+        req.session.prevTransactionTime=new Date(req.session.lastTransactionTime);
+    }
+    req.session.lastTransactionTime = new Date();
+
+
     // Hacer visible req.session en las vistas
     res.locals.session=req.session;
     next();

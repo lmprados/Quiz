@@ -1,8 +1,13 @@
 //MW de autorizacion de accesos HTTP restringidos
 exports.loginRequired = function(req, res, next){
-	if (req.session.user) {
+
+	// Calculamos el tiempo entre transacciones
+	var timeDiference = (req.session.lastTransactionTime.getTime()-req.session.prevTransactionTime.getTime()) / 1000;
+	
+	if (req.session.user && (timeDiference < 120)) {
 		next();
 	} else {
+		if (req.session.user) {delete req.session.user;}
 		res.redirect('/login');
 	}
 };
